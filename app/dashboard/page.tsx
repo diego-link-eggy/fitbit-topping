@@ -19,7 +19,7 @@ export default function Dashboard() {
 
     try {
       const res = await axios.get(
-        "https://api.fitbit.com/1/user/-/body/log/weight/date/2024-01-01/2024-12-31.json",
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/2024-02-17.json",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setWeights(res.data.weight);

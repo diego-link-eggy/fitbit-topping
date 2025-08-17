@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 const CLIENT_ID = process.env.FITBIT_CLIENT_ID!;
 const CLIENT_SECRET = process.env.FITBIT_CLIENT_SECRET!;
-const REDIRECT_URI = process.env.FITBIT_REDIRECT_URI!;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI!;
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -36,7 +36,11 @@ export async function GET(req: Request) {
   const { access_token, refresh_token, expires_in } = response.data;
 
   // Save tokens in cookies
-  const res = NextResponse.redirect("/dashboard");
+
+// Build absolute URL
+    const dashboardUrl = new URL("/dashboard", req.nextUrl.origin);
+    const res = NextResponse.redirect(dashboardUrl);
+
   const cookieOptions = {
     httpOnly: true,
     secure: true,

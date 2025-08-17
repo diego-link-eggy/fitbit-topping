@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 const CLIENT_ID = process.env.FITBIT_CLIENT_ID!;
 const CLIENT_SECRET = process.env.FITBIT_CLIENT_SECRET!;
-const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI!;
+const REDIRECT_URI = process.env.FITBIT_REDIRECT_URI!;
 
 export async function GET(req: Request) {
   const url = new URL(req.url);

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button"; // optional, can replace with <button>
+// import { Button } from "@/components/ui/button"; // optional, can replace with <button>
 import { HeartPulse, BarChart3, Cloud } from "lucide-react";
 
 export default function Page() {

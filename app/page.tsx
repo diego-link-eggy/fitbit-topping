@@ -1,64 +1,81 @@
-"use client";
 
-import { motion } from "framer-motion";
-// import { Button } from "@/components/ui/button"; // optional, can replace with <button>
-import { HeartPulse, BarChart3, Cloud } from "lucide-react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 
 export default function Page() {
+ 
+
+
+  const cookieStore = cookies();
+  const accessCookie = cookieStore.get("fitbit_access")?.value;
+
+
+  if (accessCookie) {
+    redirect("/dashboard"); // redirect if logged in
+  }
+
+
+
+  const clientId = process.env.NEXT_PUBLIC_FITBIT_CLIENT_ID;
+  const redirectUri = encodeURIComponent(
+    "https://fitbit.apptopping.com/oauth/callback"
+  );
+  const scope = encodeURIComponent(
+    "activity weight profile sleep" // adjust scopes as needed
+  );
+
+  const fitbitAuthUrl = `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white text-gray-900">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-6">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center py-20 px-6">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl font-bold mb-6"
-        >
-          Manage Your Fitbit Data Smarter
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-lg max-w-2xl mb-8"
-        >
-          Sync, visualize, and analyze your Fitbit health data. Gain insights, track progress, and stay motivated.
-        </motion.p>
-        <button className="rounded-2xl bg-indigo-600 text-white px-6 py-3 text-lg shadow-lg hover:bg-indigo-700 transition">
-          Get Started
-        </button>
+      <section className="text-center max-w-3xl">
+        <h1 className="text-5xl font-bold text-indigo-600 mb-4">
+          Fitbit Data Manager
+        </h1>
+        <p className="text-lg text-gray-700 mb-6">
+          Connect your Fitbit, track your fitness, and manage your data all in one place.
+        </p>
+        <div className="flex justify-center gap-4">
+          <a
+            href={fitbitAuthUrl}
+            className="rounded-2xl bg-indigo-600 text-white px-6 py-3 text-lg shadow-lg hover:bg-indigo-700 transition"
+          >
+            Connect Fitbit
+          </a>
+          <button className="rounded-2xl border border-indigo-600 text-indigo-600 px-6 py-3 text-lg hover:bg-indigo-50 transition">
+            Sign Up Now
+          </button>
+        </div>
       </section>
 
       {/* Features Section */}
-      <section className="grid md:grid-cols-3 gap-8 px-6 md:px-20 py-16">
-        <div className="rounded-2xl shadow-md p-8 text-center bg-white">
-          <HeartPulse className="w-12 h-12 text-indigo-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Health Tracking</h3>
-          <p>Track steps, heart rate, sleep, and more all in one place.</p>
+      <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl text-center">
+        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold text-indigo-600 mb-2">Sync Data</h3>
+          <p className="text-gray-600">
+            Automatically sync your Fitbit activity, heart rate, and sleep data.
+          </p>
         </div>
-
-        <div className="rounded-2xl shadow-md p-8 text-center bg-white">
-          <BarChart3 className="w-12 h-12 text-indigo-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Data Visualization</h3>
-          <p>Beautiful charts and insights to help you measure progress.</p>
+        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold text-indigo-600 mb-2">Visualize Metrics</h3>
+          <p className="text-gray-600">
+            See your progress with clean charts and detailed reports.
+          </p>
         </div>
-
-        <div className="rounded-2xl shadow-md p-8 text-center bg-white">
-          <Cloud className="w-12 h-12 text-indigo-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Cloud Sync</h3>
-          <p>Securely sync and access Fitbit data anytime, anywhere.</p>
+        <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold text-indigo-600 mb-2">Export & Share</h3>
+          <p className="text-gray-600">
+            Download your data or share insights with friends and trainers.
+          </p>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="text-center py-20 bg-indigo-600 text-white">
-        <h2 className="text-3xl font-bold mb-4">Take Control of Your Health Today</h2>
-        <p className="mb-6">Start tracking your Fitbit data smarter and unlock new insights.</p>
-        <button className="bg-white text-indigo-600 hover:bg-indigo-100 rounded-2xl px-6 py-3 text-lg shadow-md transition">
-          Sign Up Now
-        </button>
-      </section>
-    </div>
+      {/* Footer */}
+      <footer className="mt-20 py-6 text-center text-gray-500">
+        © 2025 Fitbit Data Manager. All rights reserved.
+      </footer>
+    </main>
   );
 }

@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
+
 import axios from "axios";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 const CLIENT_ID = process.env.FITBIT_CLIENT_ID!;
 const CLIENT_SECRET = process.env.FITBIT_CLIENT_SECRET!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI!;
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
 
